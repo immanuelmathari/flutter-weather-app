@@ -7,7 +7,7 @@ class Constants{
   final blackColor = const Color(0xff000000);
   final greyColor = const Color(0xffd9adb);
 
-  final linearGradient = const LinearGradient(
+  final linearGradientBlue = const LinearGradient(
     begin: Alignment.topRight,
     end: Alignment.topLeft,
     colors: <Color>[Color(0xffABcff2), Color(0xff9AC6f3)],
