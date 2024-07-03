@@ -7,6 +7,8 @@ class Constants{
   final blackColor = const Color(0xff000000);
   final greyColor = const Color(0xffd9adb);
 
+  final Shader shader = const LinearGradient(colors: <Color>[Color(0xffABcff2), Color.fromARGB(255, 75, 111, 147)], ).createShader(const Rect.fromLTWH(0.0, 0.0, 200.0, 70.0));
+
   final linearGradientBlue = const LinearGradient(
     begin: Alignment.topRight,
     end: Alignment.topLeft,
