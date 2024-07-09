@@ -9,7 +9,8 @@ import 'package:flutter/services.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({Key? key}) : super(key: key);
+  // const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -50,7 +51,7 @@ class _HomePageState extends State<HomePage> {
         location = getShortLocationName(locationData['name']);
         var parsedDate =
             DateTime.parse(locationData['localtime'].substring(0, 10));
-        var newDate = DateFormat('MMMMEEEd').format(parsedDate);
+        var newDate = DateFormat('MMMMEEEEd').format(parsedDate);
         currentDate = newDate;
         // update weather
         currentWeatherStatus = currentWeather['condition']['text'];
@@ -83,6 +84,12 @@ class _HomePageState extends State<HomePage> {
     } else {
       return " ";
     }
+  }
+
+  @override
+  void initState() {
+    fetchWeatherData(location);
+    super.initState();
   }
 
   @override
@@ -294,7 +301,16 @@ class _HomePageState extends State<HomePage> {
                                 fontSize: 20, fontWeight: FontWeight.bold),
                           ),
                           GestureDetector(
-                              onTap: () {},
+                              // onTap: () => {
+                              //   Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //       builder: (_) => DetailPage(
+                              //         dailyForecastweather: dailyWeatherforecast,
+                              //       )
+                              //     )
+                              //   )
+                              // },
                               child: Text(
                                 'forecasts',
                                 style: TextStyle(
@@ -315,40 +331,32 @@ class _HomePageState extends State<HomePage> {
                                 DateFormat('HH:mm:ss').format(DateTime.now());
                             String currentHour = currentTime.substring(0, 2);
                             String forecastTime = hourlyWeatherforecast[index]
-                                    ['time']
-                                .substring(11, 16);
+                                    ['time'].substring(11, 16);
                             String forecastHour = hourlyWeatherforecast[index]
-                                    ['time']
-                                .substring(11, 13);
+                                    ['time'].substring(11, 13);
                             String forecastWeatherName =
-                                hourlyWeatherforecast[index]['condition']
-                                    ['text'];
-                            String forecastWeatherIcon = forecastWeatherName
-                                    .replaceAll(' ', '')
-                                    .toLowerCase() +
-                                ".png";
+                                hourlyWeatherforecast[index]['condition']['text'];
+                            String forecastWeatherIcon = forecastWeatherName.replaceAll(' ', '').toLowerCase() + ".png";
                             String forecastTemperature =
-                                hourlyWeatherforecast[index]["temp_c"]
-                                    .round()
-                                    .toString();
+                                hourlyWeatherforecast[index]["temp_c"].round().toString();
                             return Container(
-                                padding: EdgeInsets.symmetric(vertical: 15),
-                                margin: EdgeInsets.only(right: 20),
+                                padding: const EdgeInsets.symmetric(vertical: 15),
+                                margin: const EdgeInsets.only(right: 20),
                                 // color: Colors.black,
                                 width: 60,
                                 decoration: BoxDecoration(
                                     color: currentHour == forecastHour
-                                        ? _constants.primaryColor
-                                        : Colors.white,
+                                        ? Colors.white
+                                        : _constants.primaryColor,
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(50)),
+                                        const BorderRadius.all(Radius.circular(50)),
                                     boxShadow: [
                                       BoxShadow(
                                         offset: const Offset(0, 1),
                                         blurRadius: 5,
                                         color: _constants.primaryColor
                                             .withOpacity(.2),
-                                      )
+                                      ),
                                     ]),
                                 child: Column(
                                     mainAxisAlignment:
@@ -356,7 +364,7 @@ class _HomePageState extends State<HomePage> {
                                     children: [
                                       Text(forecastTime,
                                           style: TextStyle(
-                                            fontSize: 70,
+                                            fontSize: 17,
                                             color: _constants.greyColor,
                                             fontWeight: FontWeight.bold,
                                           )),
@@ -367,19 +375,22 @@ class _HomePageState extends State<HomePage> {
                                       Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            Text(forecastTemperature,
+                                            Padding(padding: const EdgeInsets.only(top: 8.0),
+                                            child: Text(forecastTemperature,
                                                 style: TextStyle(
                                                     fontSize: 17,
                                                     color: _constants.greyColor,
                                                     fontWeight:
-                                                        FontWeight.bold)),
-                                            Text('o',
-                                                style: TextStyle(
-                                                  fontSize: 17,
-                                                  color: _constants.greyColor,
-                                                  fontWeight: FontWeight.w600,
-                                                ))
+                                                    FontWeight.bold),),),
+                                                Text('o',
+                                                    style: TextStyle(
+                                                      fontSize: 17,
+                                                      color: _constants.greyColor,
+                                                      fontWeight: FontWeight.w600,
+                                                    ))
+
                                           ])
                                     ]));
                           }),
